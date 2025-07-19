@@ -35,6 +35,7 @@ import {
   X,
   VolumeX,
 } from "lucide-react"
+import { useRouter } from "next/navigation"
 
 type InterviewPhase = "setup" | "active" | "paused" | "completed"
 type AIStatus = "listening" | "thinking" | "speaking" | "waiting"
@@ -161,35 +162,39 @@ export default function LiveMockInterview() {
     }
   }
 
+  const router = useRouter();
+
   const startInterview = async () => {
     if (!interviewType || !duration || !selectedPersona) return
 
-    const tokenGenerated = await generateToken()
-    if (!tokenGenerated) {
-      console.error("Failed to generate LiveKit token")
-      return
-    }
+    router.push('/employee/interviews/live/'+ Math.floor(Math.random() * (999999 - 100000 + 1)) + 100000)
 
-    setPhase("active")
-    setTimeElapsed(0)
+    // const tokenGenerated = await generateToken()
+    // if (!tokenGenerated) {
+    //   console.error("Failed to generate LiveKit token")
+    //   return
+    // }
 
-    // Connect to LiveKit room
-    await connect()
+    // setPhase("active")
+    // setTimeElapsed(0)
 
-    // Simulate AI starting the interview
-    setTimeout(() => {
-      const firstQuestion =
-        "Hello! I'm excited to speak with you today. Let's start with you telling me about yourself and your background in software development."
-      setCurrentQuestion(firstQuestion)
+    // // Connect to LiveKit room
+    // await connect()
 
-      const aiMessage: Message = {
-        id: Date.now().toString(),
-        type: "ai",
-        content: firstQuestion,
-        timestamp: new Date(),
-      }
-      setMessages([aiMessage])
-    }, 1000)
+    // // Simulate AI starting the interview
+    // setTimeout(() => {
+    //   const firstQuestion =
+    //     "Hello! I'm excited to speak with you today. Let's start with you telling me about yourself and your background in software development."
+    //   setCurrentQuestion(firstQuestion)
+
+    //   const aiMessage: Message = {
+    //     id: Date.now().toString(),
+    //     type: "ai",
+    //     content: firstQuestion,
+    //     timestamp: new Date(),
+    //   }
+    //   setMessages([aiMessage])
+    // }, 1000)
   }
 
   const handleMicToggle = async () => {
